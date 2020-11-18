@@ -4,7 +4,7 @@ require 'pry'
 # My module Enumerable
 module Enumerable
   # Create #my_each, a method that is identical to #each but (obviously) does not use #each.
-  #You'll need to remember the yield statement. 
+  # You'll need to remember the yield statement. 
   # Make sure it returns the same thing as #each as well.
   def my_each
     for value in self do
@@ -24,7 +24,7 @@ module Enumerable
   # Create #my_select in the same way, though you may use #my_each in your definition (but not #each).
   def my_select
     arr = []
-    self.my_each do |value|
+    my_each do |value|
       arr.push(value) if yield(value)
     end
   end
@@ -32,15 +32,21 @@ module Enumerable
   # Create #my_all? (continue as above)
   def my_all?
     result = true
-    self.my_each do |value|
-      unless yield(value)
-        return false
-      end
+    my_each do |value|
+      return false unless yield(value)
     end
     result
   end
 
   # Create #my_any?
+  def my_any?
+    result = false
+    my_each do |value|
+      return true if yield(value)
+    end
+    result
+  end
+
   # Create #my_none?
   # Create #my_count
   # Create #my_map
@@ -54,6 +60,6 @@ end
 
 #(1..9).my_each_with_index { |x, i| p "Index: #{i} and Value: #{x}" }
 
-#(1..9).my_select { |x| x % 2 == 0 }
+# p (1..9).my_any? { |x| x % 2 == 0 }
 
-p [2, 4].my_all? { |x| x % 2 == 0 }
+p [2, 4].my_any? { |x| x % 2 != 0 }
