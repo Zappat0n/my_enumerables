@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-require 'pry'
 
 # My module Enumerable
 module Enumerable
   # Create #my_each, a method that is identical to #each but (obviously) does not use #each.
-  # You'll need to remember the yield statement. 
+  # You'll need to remember the yield statement.
   # Make sure it returns the same thing as #each as well.
   def my_each
     return 'No block given' unless block_given?
@@ -78,7 +77,7 @@ module Enumerable
   end
 
   # Create #my_map
-  def my_map
+  def my_map_old
     return 'No block given' unless block_given?
 
     arr = []
@@ -114,17 +113,21 @@ module Enumerable
   # and one with the proc. This approach is also clearer, since the user doesn't have to remember
   # whether the proc or block will be run first.
   # So if both a proc and a block are given, only execute the proc.
-  
+  def my_map(proc = nil)
+    arr = []
+    my_each do |value|
+      to_push = proc.nil? ? yield(value) : proc.call(value)
+      arr.push(to_push)
+    end
+    arr
+  end
 end
 
-# Test your #my_inject by creating a method called #multiply_els which multiplies all 
+# Test your #my_inject by creating a method called #multiply_els which multiplies all
 # the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5]) #=> 40
 def multiply_els(arr)
   arr.my_inject(1) { |total, x| total * x }
 end
 
 my_proc = proc { |x| x + 1 }
-p (1..9).my_map_proc(my_proc)
-
-
-# p [2, 4].my_none? { |x| x % 2 == 0 }
+p(1..9).my_map(my_proc) { |x| x + 5 }
