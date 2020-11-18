@@ -126,6 +126,3 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |total, x| total * x }
 end
-
-my_proc = proc { |x| x + 1 }
-p(1..9).my_map(my_proc) { |x| x + 5 }
