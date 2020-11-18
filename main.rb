@@ -28,7 +28,18 @@ module Enumerable
       arr.push(value) if yield(value)
     end
   end
-  
+
+  # Create #my_all? (continue as above)
+  def my_all?
+    result = true
+    self.my_each do |value|
+      unless yield(value)
+        return false
+      end
+    end
+    result
+  end
+
   # Create #my_any?
   # Create #my_none?
   # Create #my_count
