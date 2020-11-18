@@ -1,12 +1,11 @@
-# ruby_bubble_sort[](https://img.shields.io/badge/Microverse-blueviolet)
-
 ## Week 5
 
 # Ruby - Advanced Building Blocks - Enumerables
 
 ## Project description. 
 
-In this project, I implemented my own version of Ruby’s enumerable methods. 
+In this project, I implemented my version of the following Ruby’s enumerable methods:  
+#my_each, #my_each_with_index, #my_select , #my_all?, #my_any?, #my_none?, #my_count, #my_map, and #my_inject
 
 Full task description: [link](https://github.com/TheOdinProject/curriculum/blob/master/archive/old_lessons/ruby/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods)
 
