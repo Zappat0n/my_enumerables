@@ -1,5 +1,3 @@
-# ruby_bubble_sort[](https://img.shields.io/badge/Microverse-blueviolet)
-
 ## Week 5
 
 # Ruby - Advanced Building Blocks - Enumerables
