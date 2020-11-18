@@ -48,6 +48,14 @@ module Enumerable
   end
 
   # Create #my_none?
+  def my_none?
+    result = true
+    my_each do |value|
+      return false if yield(value)
+    end
+    result
+  end
+
   # Create #my_count
   # Create #my_map
   # Create #my_inject
@@ -56,10 +64,6 @@ module Enumerable
   # Modify your #my_map method to take either a proc or a block. It won't be necessary to apply both a proc and a block in the same #my_map call since you could get the same effect by chaining together one #my_map call with the block and one with the proc. This approach is also clearer, since the user doesn't have to remember whether the proc or block will be run first. So if both a proc and a block are given, only execute the proc.
 end
 
-#(1..9).my_each { |x| p x }
+p (1..9).my_none? { |x| x % 2 == 0 }
 
-#(1..9).my_each_with_index { |x, i| p "Index: #{i} and Value: #{x}" }
-
-# p (1..9).my_any? { |x| x % 2 == 0 }
-
-p [2, 4].my_any? { |x| x % 2 != 0 }
+# p [2, 4].my_none? { |x| x % 2 == 0 }
