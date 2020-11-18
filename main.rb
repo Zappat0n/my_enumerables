@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # My module Enumerable
 module Enumerable
   # Create #my_each, a method that is identical to #each but (obviously) does not use #each.
