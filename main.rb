@@ -20,6 +20,14 @@ module Enumerable
       index += 1
     end
   end
+
+  # Create #my_select in the same way, though you may use #my_each in your definition (but not #each).
+  def my_select
+    arr = []
+    self.my_each do |value|
+      arr.push(value) if yield(value)
+    end
+  end
   
   # Create #my_any?
   # Create #my_none?
