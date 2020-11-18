@@ -33,12 +33,20 @@ module Enumerable
   end
 
   # Create #my_all? (continue as above)
-  def my_all?
-    return 'No block given' unless block_given?
+  def my_all?(parameter)
+    #return 'No block given' unless block_given?
 
     result = true
     my_each do |value|
-      return false unless yield(value)
+      if block_given?
+        return false unless yield(value)
+      else
+        if parameter.is_a? Class
+          return false unless value.is_a? parameter
+        else
+          return false unless value =~ parameter
+        end
+      end
     end
     result
   end
@@ -126,3 +134,5 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |total, x| total * x }
 end
+
+p [1,1,1].my_all?(Integer)
