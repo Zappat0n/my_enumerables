@@ -5,7 +5,7 @@ module Enumerable
   # You'll need to remember the yield statement.
   # Make sure it returns the same thing as #each as well.
   def my_each
-    return Enumerator.new(arr) unless block_given?
+    return to_enum unless block_given?
 
     arr = to_a
     i = 0
@@ -17,7 +17,7 @@ module Enumerable
 
   # Create #my_each_with_index in the same way.
   def my_each_with_index
-    return Enumerator.new(arr) unless block_given?
+    return to_enum unless block_given?
 
     index = 0
     my_each do |value|
@@ -117,17 +117,6 @@ module Enumerable
     count
   end
 
-  # Create #my_map
-  def my_map_old
-    return 'No block given' unless block_given?
-
-    arr = []
-    my_each do |value|
-      arr.push(yield(value))
-    end
-    arr
-  end
-
   # Create #my_inject
   def my_inject(initial = 0)
     return 'No block given' unless block_given?
@@ -139,15 +128,6 @@ module Enumerable
     total
   end
 
-  # Modify your #my_map method to take a proc instead.
-  def my_map_proc(proc)
-    arr = []
-    my_each do |value|
-      arr.push(proc.call(value))
-    end
-    arr
-  end
-
   # Modify your #my_map method to take either a proc or a block.
   # It won't be necessary to apply both a proc and a block in the same #my_map call
   # since you could get the same effect by chaining together one #my_map call with the block
@@ -155,10 +135,13 @@ module Enumerable
   # whether the proc or block will be run first.
   # So if both a proc and a block are given, only execute the proc.
   def my_map(proc = nil)
+    return to_enum unless block_given?
+
     arr = []
-    my_each do |value|
-      to_push = proc.nil? ? yield(value) : proc.call(value)
-      arr.push(to_push)
+    if !proc.nil?
+      my_each { |value| arr.push(proc.call(value)) }
+    else
+      my_each { |value| arr.push(yield(value)) }
     end
     arr
   end
