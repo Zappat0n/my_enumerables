@@ -13,7 +13,6 @@ module Enumerable
       yield(arr[i])
       i += 1
     end
-    arr
   end
 
   # Create #my_each_with_index in the same way.
@@ -173,10 +172,6 @@ def multiply_els(arr)
   arr.my_inject(1) { |total, x| total * x }
 end
 
-p [1, 2, 3].my_each
-
-
-=begin
 # 1. my_each
 puts 'my_each'
 puts '-------'
@@ -262,4 +257,3 @@ p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
 p [5, 1, 2].my_inject('+') # => 8
 p (5..10).my_inject(2, :*) # should return 302400
 p (5..10).my_inject(4) { |prod, n| prod * n } # should return 604800
-=end
