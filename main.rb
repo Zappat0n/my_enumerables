@@ -118,12 +118,21 @@ module Enumerable
   end
 
   # Create #my_inject
-  def my_inject(initial = 0)
-    return 'No block given' unless block_given?
-
-    total = initial
-    my_each do |x|
-      total = yield(total, x)
+  def my_inject(*parameter)
+    total = 0
+    if block_given?
+      parameter = parameter[0]
+      my_each_with_index do |value, index|
+        if !index.zero?
+          total = yield(total, value)
+        else
+          total = parameter.nil? ? value : yield(parameter, value)
+        end
+      end
+    elsif parameter[1].nil?
+      my_each { |value| total = value.send parameter[0], total }
+    else
+      my_each_with_index { |value, index| total = value.send parameter[1], (index.zero? ? parameter[0] : total) }
     end
     total
   end
@@ -240,3 +249,6 @@ p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
 p [5, 1, 2].my_inject('+') # => 8
 p (5..10).my_inject(2, :*) # should return 302400
 p (5..10).my_inject(4) { |prod, n| prod * n } # should return 604800
+
+p (1..5).my_inject(4) { |prod, n| prod * n }#=> 480
+p [2, 5, 6].my_inject(:+) #=> 13
