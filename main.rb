@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/ModuleLength
-# My Enumerable implementation
+# My module Enumerable
 module Enumerable
   # Create #my_each, a method that is identical to #each but (obviously) does not use #each.
   # You'll need to remember the yield statement.
@@ -13,6 +13,8 @@ module Enumerable
       yield(arr[i])
       i += 1
     end
+
+    arr != to_a ? arr : self
   end
 
   # Create #my_each_with_index in the same way.
@@ -119,18 +121,21 @@ module Enumerable
 
   # Create #my_inject
   def my_inject(*parameter)
+    raise LocalJumpError if !block_given? && parameter[0].nil? && parameter[1].nil?
+
     total = 0
     if block_given?
       parameter = parameter[0]
       my_each_with_index do |value, index|
-        total = if !index.zero?
-                  yield(total, value)
-                else
-                  parameter.nil? ? value : yield(parameter, value)
-                end
+        param = parameter.nil? ? value : yield(parameter, value)
+        total = !index.zero? ? yield(total, value) : param
       end
     elsif parameter[1].nil?
-      my_each { |value| total = value.send parameter[0], total }
+      if parameter[0].is_a? Symbol
+        my_each_with_index { |value, index| total = value.send parameter[0], (index.zero? ? value : total) }
+      else
+        my_each { |value| total = value.send parameter[0], total }
+      end
     else
       my_each_with_index { |value, index| total = value.send parameter[1], (index.zero? ? parameter[0] : total) }
     end
