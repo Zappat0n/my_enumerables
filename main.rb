@@ -149,7 +149,7 @@ module Enumerable
   # whether the proc or block will be run first.
   # So if both a proc and a block are given, only execute the proc.
   def my_map(proc = nil)
-    return to_enum unless block_given?
+    return to_enum if !block_given? && proc.nil?
 
     arr = []
     if !proc.nil?
