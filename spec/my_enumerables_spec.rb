@@ -107,4 +107,49 @@ describe Enumerable do
       end
     end
   end
+  describe '#my_none?(parameter = nil)' do
+    context 'Returns true if none of the elements match a condition.' do
+      it 'return is correct when there is a Block and no parameters' do
+        expect([1, 3, 5, 9].my_none? { |x| x > 7 }).to eq(false)
+      end
+
+      it 'return is correct when there is not a Block and the parameter is a RegEx' do
+        expect(%w[a b c d e].my_none?(/[gh]/)).to eq(true)
+      end
+
+      it 'return is correct when there is neither a Block nor a parameter' do
+        expect([1, 2, 3, 4, 5].my_none?).to eq(false)
+      end
+
+      it 'return is correct when there is not a Block and the parameter is an Object' do
+        expect([1, 1, 1, 1, 1].my_none?(1)).to eq(false)
+      end
+
+      it 'return is correct when there is not a Block and the parameter is a Class' do
+        expect([1, 2, 3, 4, 5].my_none?(Integer)).to eq(false)
+      end
+    end
+  end
+
+  describe '#my_count(parameter = nil)' do
+    context 'Counts all elements that match a condition.' do
+      it 'return is corr
+    ect when there is a Block and no parameters' do
+        expect([1, 3, 5, 9].my_count { |x| x > 7 }).to eq(1)
+      end
+
+      it 'return is correct when there is neither a Block nor a parameter' do
+        expect([1, 2, 3, 4, 5].my_count).to eq(5)
+      end
+
+      it 'return is correct when there is not a Block and the parameter is an Object' do
+        expect([1, 2, 2, 4, 5].my_count(2)).to eq(2)
+      end
+
+      it 'return is correct when there is not a Block and the parameter is a Proc' do
+        pr = proc { |x| x =~ /[cd]/ }
+        expect(%w[a b c d e].my_count(pr)).to eq(2)
+      end
+    end
+  end
 end
