@@ -34,7 +34,7 @@ module Enumerable
     if block_given?
       my_each { |value| arr.push(value) if yield(value) }
     elsif parameter.nil?
-      return Enumerator.new(arr)
+      return arr.to_enum
     else
       my_each { |value| arr.push(value) if parameter.call(value) }
     end
